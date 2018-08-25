@@ -1,0 +1,11 @@
+{
+  "name": "blog-material-ui",
+  "version": "1.0.0",
+  "description": "Sam's blog front end using material ui and react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Rae",
+  "license": "ISC"
+}
