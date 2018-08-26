@@ -1,7 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  mode: 'development',
+  entry: ['babel-polyfill', './src/index.js'],
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -11,7 +13,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         query: {
           presets: ['react', 'env']
         }
