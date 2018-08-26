@@ -1,5 +1,5 @@
 import React from "react";
-import Button from '@material-ui/core/Button';
+import PostCard from './postCard';
 
 class PostsList extends React.Component {
   constructor(props) {
@@ -25,10 +25,9 @@ class PostsList extends React.Component {
   render() {
     return (
       <div>
-        {this.state.posts.map((p, i) => 
-            <div key={i}>
-              {p.title}
-            </div>)
+        {this.state.posts.map((post, i) => 
+            <PostCard post={post} key={i} />
+          )
         }
       </div>
     );
