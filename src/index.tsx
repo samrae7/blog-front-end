@@ -1,10 +1,10 @@
-import "babel-polyfill";
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import "babel-polyfill";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { PostsList } from './components/postsList';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 
-function App() {
+const App = (): any => {
   return (
     <div>
       <nav>

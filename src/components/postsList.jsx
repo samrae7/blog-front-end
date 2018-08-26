@@ -4,7 +4,7 @@ import PostCard from './postCard';
 class PostsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { posts: [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}] };
+    this.state = { posts: [] };
   }
 
   componentDidMount() {

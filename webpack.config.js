@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: './src/index.tsx',
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -11,13 +11,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'env']
-        }
+        test: /\.(tsx?|jsx)$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
-  } 
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js', '.jsx' ]
+  }
 };
