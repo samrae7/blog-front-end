@@ -14,13 +14,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/Inbox';
-import { Route } from 'react-router-dom';
-import { PostsList } from './postsList';
 
 const drawerWidth = 240;
 
 const styles = (theme: Theme) => createStyles({
-
   appFrame: {
     zIndex: 1,
     overflow: 'hidden',
@@ -37,16 +34,11 @@ const styles = (theme: Theme) => createStyles({
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  },
-  'appBarShift-left': {
-    marginLeft: drawerWidth,
-  },
-  'appBarShift-right': {
-    marginRight: drawerWidth,
   },
   menuButton: {
     marginLeft: 12,
@@ -70,36 +62,26 @@ const styles = (theme: Theme) => createStyles({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+    marginLeft: -drawerWidth,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  'content-left': {
-    marginLeft: -drawerWidth,
-  },
-  'content-right': {
-    marginRight: -drawerWidth,
-  },
   contentShift: {
+    marginLeft: 0,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  },
-  'contentShift-left': {
-    marginLeft: 0,
-  },
-  'contentShift-right': {
-    marginRight: 0,
-  },
+  }
 });
 
 interface DrawerState {
   open: boolean;
 }
 
-class ResponsiveDrawer extends React.Component<WithStyles<typeof styles>, DrawerState> {
+class MenuSystem extends React.Component<WithStyles<typeof styles>, DrawerState> {
   state = {
     open: false
   };
@@ -141,10 +123,9 @@ class ResponsiveDrawer extends React.Component<WithStyles<typeof styles>, Drawer
 
     return (
       <div className={classes.appFrame}>
-          <AppBar
+        <AppBar
           className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
-            [classes[`appBarShift-left`]]: open,
+            [classes.appBarShift]: open
           })}
         >
           <Toolbar disableGutters={!open}>
@@ -158,27 +139,21 @@ class ResponsiveDrawer extends React.Component<WithStyles<typeof styles>, Drawer
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
               Sam's blog
-              </Typography>
+            </Typography>
           </Toolbar>
         </AppBar>
         {drawer}
         <main
-          className={classNames(classes.content, classes[`content-left`], {
-            [classes.contentShift]: open,
-            [classes[`contentShift-left`]]: open,
+          className={classNames(classes.content, {
+            [classes.contentShift]: open
           })}
         >
           <div className={classes.drawerHeader} />
-          <Route path='/posts' component={PostsList} />
+          {this.props.children}
         </main>
       </div>
     );
   }
-
-
-
-
-
 }
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(MenuSystem);

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Drawer from './components/ResponsiveDrawer';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import MenuSystem from './components/MenuSystem';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { PostsList } from './components/PostsList';
 
 const App = (): any => {
   return (
     <div>
-      <Drawer />
+      <MenuSystem>
+        <Route path='/posts' component={PostsList} />
+      </MenuSystem>
     </div>
   );
 }
