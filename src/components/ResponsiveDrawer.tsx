@@ -6,7 +6,7 @@ import { WithStyles } from '@material-ui/core/styles/withStyles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import {List, ListItem, ListItemText, ListItemIcon} from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
@@ -20,11 +20,8 @@ import { PostsList } from './postsList';
 const drawerWidth = 240;
 
 const styles = (theme: Theme) => createStyles({
-  root: {
-    flexGrow: 1,
-  },
+
   appFrame: {
-    height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -143,39 +140,37 @@ class ResponsiveDrawer extends React.Component<WithStyles<typeof styles>, Drawer
     );
 
     return (
-      <div className={classes.root}>
-        <div className={classes.appFrame}>
+      <div className={classes.appFrame}>
           <AppBar
-            className={classNames(classes.appBar, {
-              [classes.appBarShift]: open,
-              [classes[`appBarShift-left`]]: open,
-            })}
-          >
-            <Toolbar disableGutters={!open}>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classNames(classes.menuButton, open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                Sam's blog
+          className={classNames(classes.appBar, {
+            [classes.appBarShift]: open,
+            [classes[`appBarShift-left`]]: open,
+          })}
+        >
+          <Toolbar disableGutters={!open}>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classNames(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit" noWrap>
+              Sam's blog
               </Typography>
-            </Toolbar>
-          </AppBar>
-          {drawer}
-          <main
-            className={classNames(classes.content, classes[`content-left`], {
-              [classes.contentShift]: open,
-              [classes[`contentShift-left`]]: open,
-            })}
-          >
-            <div className={classes.drawerHeader} />
-            <Route path='/posts' component={PostsList} />
-          </main>
-        </div>
+          </Toolbar>
+        </AppBar>
+        {drawer}
+        <main
+          className={classNames(classes.content, classes[`content-left`], {
+            [classes.contentShift]: open,
+            [classes[`contentShift-left`]]: open,
+          })}
+        >
+          <div className={classes.drawerHeader} />
+          <Route path='/posts' component={PostsList} />
+        </main>
       </div>
     );
   }
