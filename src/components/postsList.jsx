@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import PostCard from './PostCard';
 
 class PostsList extends React.Component {

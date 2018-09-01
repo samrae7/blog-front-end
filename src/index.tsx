@@ -4,7 +4,7 @@ import MenuSystem from './components/MenuSystem';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { PostsList } from './components/PostsList';
 
-const App = (): any => {
+const App: React.StatelessComponent = (): JSX.Element => {
   return (
     <div>
       <MenuSystem>
