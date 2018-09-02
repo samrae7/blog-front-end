@@ -137,7 +137,7 @@ class MenuSystem extends React.Component<WithStyles<typeof styles>, DrawerState>
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="title" color="inherit" noWrap={true}>
               Sam's blog
             </Typography>
           </Toolbar>

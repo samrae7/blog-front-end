@@ -31,7 +31,7 @@ class App extends React.Component<{}, any> {
       <div>
         <MenuSystem>
           <Switch>
-            <Route exact path="/posts" render={() => <PostsList posts={this.state.posts} />} />
+            <Route exact={true} path="/posts" render={() => <PostsList posts={this.state.posts} />} />
             <Route path="/posts/:id" render={({match}) => {
               console.log("match", match);
               console.log("match.params", match.params);
@@ -51,7 +51,7 @@ class App extends React.Component<{}, any> {
   }
 }
 
-let el = document.querySelector('#app');
+const el = document.querySelector('#app');
 
 ReactDOM.render((
   <BrowserRouter>
