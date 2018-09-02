@@ -1,0 +1,10 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "jsRules": {
+    "no-any": true,
+    "typedef": [true, "call-signature", "property-declaration"]
+  },
+  "rules": {},
+  "rulesDirectory": []
+}
