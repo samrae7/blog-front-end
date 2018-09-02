@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import MenuSystem from './components/MenuSystem';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { PostsList } from './components/PostsList';
+import MenuSystem from './components/MenuSystem';
 import Post from './components/Post'
+import { PostsList } from './components/PostsList';
 
 class App extends React.Component<{}, any> {
   constructor(props: {}) {
@@ -11,11 +11,11 @@ class App extends React.Component<{}, any> {
     this.state = { posts: [] };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.getPosts();
   }
 
-  async getPosts() {
+  public async getPosts() {
     const response = await fetch("http://localhost:5000/api/post", {
       method: "GET"
     });
@@ -26,7 +26,7 @@ class App extends React.Component<{}, any> {
     return data;
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <MenuSystem>
@@ -51,7 +51,7 @@ class App extends React.Component<{}, any> {
   }
 }
 
-var el = document.querySelector('#app');
+let el = document.querySelector('#app');
 
 ReactDOM.render((
   <BrowserRouter>
