@@ -1,19 +1,19 @@
-import * as React from 'react';
-import classNames from 'classnames'
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { WithStyles } from '@material-ui/core/styles/withStyles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/Inbox';
+import MenuIcon from '@material-ui/icons/Menu';
+import classNames from 'classnames'
+import * as React from 'react';
 
 const drawerWidth = 240;
 
@@ -82,15 +82,15 @@ interface DrawerState {
 }
 
 class MenuSystem extends React.Component<WithStyles<typeof styles>, DrawerState> {
-  state = {
+  public state = {
     open: false
   };
 
-  handleDrawerToggle = () => {
+  public handleDrawerToggle = (): void => {
     this.setState((state: DrawerState) => ({ open: !state.open }));
   };
 
-  render() {
+  public render() {
     const { classes, theme } = this.props;
     const { open } = this.state;
 
