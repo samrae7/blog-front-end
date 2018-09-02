@@ -1,7 +1,7 @@
 import * as React from "react";
 import PostCard from './PostCard';
 
-class PostsList extends React.Component<{posts: Post[]}, null> {
+class PostsList extends React.Component {
   render() {
     return (
       <div>
