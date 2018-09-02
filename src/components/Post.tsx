@@ -22,11 +22,11 @@ const styles = () =>
     }
   });
 
-interface PostProps extends WithStyles<typeof styles> {
+interface IPostProps extends WithStyles<typeof styles> {
   post: Post;
 }
 
-const Post: React.StatelessComponent<PostProps> = (props: PostProps) => {
+const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
   const { classes, post } = props;
 
   return (

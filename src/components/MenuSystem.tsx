@@ -77,17 +77,17 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-interface DrawerState {
+interface IDrawerState {
   open: boolean;
 }
 
-class MenuSystem extends React.Component<WithStyles<typeof styles>, DrawerState> {
+class MenuSystem extends React.Component<WithStyles<typeof styles>, IDrawerState> {
   public state = {
     open: false
   };
 
   public handleDrawerToggle = (): void => {
-    this.setState((state: DrawerState) => ({ open: !state.open }));
+    this.setState((state: IDrawerState) => ({ open: !state.open }));
   };
 
   public render() {

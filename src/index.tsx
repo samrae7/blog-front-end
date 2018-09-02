@@ -33,11 +33,6 @@ class App extends React.Component<{}, any> {
           <Switch>
             <Route exact={true} path="/posts" render={() => <PostsList posts={this.state.posts} />} />
             <Route path="/posts/:id" render={({match}) => {
-              console.log("match", match);
-              console.log("match.params", match.params);
-              console.log("posts", this.state.posts);  
-              console.log("int", parseInt(match.params) - 1);  
-              console.log("post", this.state.posts[parseInt(match.params.id)-1]);  
               return this.state.posts.length ?
                 <Post post={this.state.posts[parseInt(match.params.id)-1]} />
                 :
