@@ -32,7 +32,6 @@ const styles = {
 
 function PostCard(props) {
   const { classes, post } = props;
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.card}>
@@ -43,9 +42,7 @@ function PostCard(props) {
         <Typography variant="headline" component="h2">
           {post.title}
         </Typography>
-        <Typography component="p">
-          {post.body}
-        </Typography>
+        <Typography component="p">{post.body}</Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Read more</Button>
