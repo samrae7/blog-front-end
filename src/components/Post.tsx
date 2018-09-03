@@ -6,7 +6,7 @@ import { createStyles, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import { Post } from "../types";
+import { IPost } from "../types";
 
 const styles = () =>
   createStyles({
@@ -23,7 +23,7 @@ const styles = () =>
   });
 
 interface IPostProps extends WithStyles<typeof styles> {
-  post: Post;
+  post: IPost;
 }
 
 const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {

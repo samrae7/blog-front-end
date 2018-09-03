@@ -5,6 +5,9 @@
     "no-any": true,
     "typedef": [true, "call-signature", "property-declaration"]
   },
-  "rules": {},
+  "rules": {
+    "object-literal-sort-keys": false,
+    "ordered-imports": false
+  },
   "rulesDirectory": []
 }

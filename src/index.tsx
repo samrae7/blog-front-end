@@ -1,12 +1,14 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import MenuSystem from './components/MenuSystem';
-import Post from './components/Post'
-import { PostsList } from './components/PostsList';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
+import MenuSystem from "./components/MenuSystem";
+import Post from "./components/Post";
+import { IPost } from "./types";
+import { PostsList } from "./components/PostsList";
 
-class App extends React.Component<{}, any> {
-  constructor(props: {}) {
+class App extends React.Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = { posts: [] };
   }
@@ -31,25 +33,32 @@ class App extends React.Component<{}, any> {
       <div>
         <MenuSystem>
           <Switch>
-            <Route exact={true} path="/posts" render={() => <PostsList posts={this.state.posts} />} />
-            <Route path="/posts/:id" render={({match}) => {
-              return this.state.posts.length ?
-                <Post post={this.state.posts[parseInt(match.params.id)-1]} />
-                :
-                <div> Not yet</div>
-              }}
+            <Route exact={true} path="/posts" render={this.renderPostsList} />}
             />
+            <Route path="/posts/:id" render={this.renderPost} />
           </Switch>
         </MenuSystem>
       </div>
     );
   }
+
+  private renderPostsList = () => <PostsList posts={this.state.posts} />;
+
+  private renderPost = (props: RouteComponentProps<IPost>) => {
+    const { match } = props;
+    return this.state.posts.length ? (
+      <Post post={this.state.posts[parseInt(match.params.id, null) - 1]} />
+    ) : (
+      <div> Not yet</div>
+    );
+  };
 }
 
-const el = document.querySelector('#app');
+const el = document.querySelector("#app");
 
-ReactDOM.render((
+ReactDOM.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-), el);
+  </BrowserRouter>,
+  el
+);
