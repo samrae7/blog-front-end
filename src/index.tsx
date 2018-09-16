@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import MenuSystem from "./components/MenuSystem";
 import Post from "./components/Post";
+import EditPost from "./components/EditPost";
 import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
 
@@ -33,9 +34,13 @@ class App extends React.Component<any, any> {
       <div>
         <MenuSystem>
           <Switch>
-            <Route exact={true} path="/posts" render={this.renderPostsList} />}
+            <Route exact={true} path="/posts" render={this.renderPostsList} />
+            <Route exact={true} path="/posts/:id" render={this.renderPost} />
+            <Route
+              exact={true}
+              path="/posts/edit/:id"
+              render={this.renderEditPost}
             />
-            <Route path="/posts/:id" render={this.renderPost} />
           </Switch>
         </MenuSystem>
       </div>
@@ -48,6 +53,16 @@ class App extends React.Component<any, any> {
     const { match } = props;
     return this.state.posts.length ? (
       <Post post={this.state.posts[parseInt(match.params.id, null) - 1]} />
+    ) : (
+      <div> Not yet</div>
+    );
+  };
+
+  // TODO DRY out
+  private renderEditPost = (props: RouteComponentProps<IPost>) => {
+    const { match } = props;
+    return this.state.posts.length ? (
+      <EditPost post={this.state.posts[parseInt(match.params.id, null) - 1]} />
     ) : (
       <div> Not yet</div>
     );
