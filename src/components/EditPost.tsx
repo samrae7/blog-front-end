@@ -2,6 +2,7 @@ import { createStyles, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import * as React from "react";
 import { IPost } from "../types";
 
@@ -28,6 +29,9 @@ const styles = (theme: Theme) =>
     },
     menu: {
       width: 200
+    },
+    button: {
+      margin: theme.spacing.unit
     }
   });
 
@@ -64,6 +68,24 @@ class Post extends React.Component<IPostProps, IEditPostState> {
     });
   };
 
+  public handleSave = (e: React.MouseEvent<HTMLElement>) => {
+    console.log("e", e);
+    console.log("post", this.state.body);
+    this.updatePost({ Title: this.state.title, Body: this.state.body });
+  };
+
+  public async updatePost(payload: any) {
+    console.log("posting");
+    const fetchOptions: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    };
+    return await fetch("http://localhost:5000/api/post/2", fetchOptions);
+  }
+
   public render() {
     const { title, body } = this.state;
     const { classes } = this.props;
@@ -91,9 +113,27 @@ class Post extends React.Component<IPostProps, IEditPostState> {
           margin="normal"
           value={body}
         />
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={this.handleSave}
+        >
+          Save
+        </Button>
       </form>
     );
   }
 }
+
+// curl -X POST \
+//   http://localhost:5000/api/post/2 \
+//   -H 'Cache-Control: no-cache' \
+//   -H 'Content-Type: application/json' \
+//   -H 'Postman-Token: 963f2010-62ae-4a21-a778-4310a63ccb1a' \
+//   -d '{
+// 	"Title": "Updated titlexxx",
+// 	"Body": "fasfsaf asf fasfjddddddd cnn n the cja ck"
+// }'
 
 export default withStyles(styles)(Post);
