@@ -40,9 +40,6 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
         </Typography>
         <Typography component="p">{post.body}</Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Read more</Button>
-      </CardActions>
     </Card>
   );
 };
