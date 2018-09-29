@@ -54,10 +54,12 @@ class Post extends React.Component<IPostProps, IEditPostState> {
   }
 
   public componentDidMount() {
-    this.setState({
-      title: this.props.post.title,
-      body: this.props.post.body
-    });
+    if (this.props.post) {
+      this.setState({
+        title: this.props.post.title,
+        body: this.props.post.body
+      });
+    }
   }
 
   public handleChange = (propName: string) => (
@@ -69,13 +71,18 @@ class Post extends React.Component<IPostProps, IEditPostState> {
   };
 
   public handleSave = (e: React.MouseEvent<HTMLElement>) => {
-    console.log("e", e);
-    console.log("post", this.state.body);
-    this.updatePost({ Title: this.state.title, Body: this.state.body });
+    if (this.props.post) {
+      this.updatePost({ Title: this.state.title, Body: this.state.body });
+    } else {
+      this.createPost({
+        Title: this.state.title,
+        Body: this.state.body
+      });
+    }
   };
 
+  // TODO fix 'any'
   public async updatePost(payload: any) {
-    console.log("posting");
     const fetchOptions: RequestInit = {
       method: "POST",
       headers: {
@@ -84,6 +91,19 @@ class Post extends React.Component<IPostProps, IEditPostState> {
       body: JSON.stringify(payload)
     };
     return await fetch("http://localhost:5000/api/post/2", fetchOptions);
+  }
+
+  public async createPost(payload: any) {
+    const fetchOptions: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    };
+    return fetch("http://localhost:5000/api/post", fetchOptions)
+      .then(res => console.log("success", res.json()))
+      .catch(err => console.log(err));
   }
 
   public render() {
@@ -124,6 +144,28 @@ class Post extends React.Component<IPostProps, IEditPostState> {
       </form>
     );
   }
+
+  private guid = () => {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return (
+      s4() +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      s4() +
+      s4()
+    );
+  };
 }
 
 // curl -X POST \

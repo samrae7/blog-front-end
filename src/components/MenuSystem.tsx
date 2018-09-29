@@ -1,87 +1,92 @@
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { WithStyles } from '@material-ui/core/styles/withStyles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InboxIcon from '@material-ui/icons/Inbox';
-import MenuIcon from '@material-ui/icons/Menu';
-import classNames from 'classnames'
-import * as React from 'react';
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import { createStyles, withStyles } from "@material-ui/core/styles";
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import { WithStyles } from "@material-ui/core/styles/withStyles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import InboxIcon from "@material-ui/icons/Inbox";
+import MenuIcon from "@material-ui/icons/Menu";
+import classNames from "classnames";
+import * as React from "react";
 
 const drawerWidth = 240;
 
-const styles = (theme: Theme) => createStyles({
-  appFrame: {
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-  },
-  appBar: {
-    position: 'absolute',
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawerPaper: {
-    position: 'relative',
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-    marginLeft: -drawerWidth,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  contentShift: {
-    marginLeft: 0,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    appFrame: {
+      zIndex: 1,
+      overflow: "hidden",
+      position: "relative",
+      display: "flex",
+      width: "100%"
+    },
+    appBar: {
+      position: "absolute",
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      })
+    },
+    menuButton: {
+      marginLeft: 12,
+      marginRight: 20
+    },
+    hide: {
+      display: "none"
+    },
+    drawerPaper: {
+      position: "relative",
+      width: drawerWidth
+    },
+    drawerHeader: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: "0 8px",
+      ...theme.mixins.toolbar
+    },
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing.unit * 3,
+      marginLeft: -drawerWidth,
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
+    contentShift: {
+      marginLeft: 0,
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      })
+    }
+  });
 
 interface IDrawerState {
   open: boolean;
 }
 
-class MenuSystem extends React.Component<WithStyles<typeof styles>, IDrawerState> {
+class MenuSystem extends React.Component<
+  WithStyles<typeof styles>,
+  IDrawerState
+> {
   public state = {
     open: false
   };
@@ -100,12 +105,16 @@ class MenuSystem extends React.Component<WithStyles<typeof styles>, IDrawerState
         anchor={"left"}
         open={open}
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.drawerPaper
         }}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={this.handleDrawerToggle}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
@@ -140,6 +149,7 @@ class MenuSystem extends React.Component<WithStyles<typeof styles>, IDrawerState
             <Typography variant="title" color="inherit" noWrap={true}>
               Sam's blog
             </Typography>
+            <Button href="/new">New post</Button>
           </Toolbar>
         </AppBar>
         {drawer}

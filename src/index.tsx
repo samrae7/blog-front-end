@@ -41,6 +41,11 @@ class App extends React.Component<any, any> {
               path="/posts/edit/:id"
               render={this.renderEditPost}
             />
+            <Route
+              exact={true}
+              path="/new"
+              render={this.renderEditPost}
+            />
           </Switch>
         </MenuSystem>
       </div>
@@ -59,6 +64,7 @@ class App extends React.Component<any, any> {
   };
 
   // TODO DRY out
+  // TODO rename render PostForm
   private renderEditPost = (props: RouteComponentProps<IPost>) => {
     const { match } = props;
     return this.state.posts.length ? (
