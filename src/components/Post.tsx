@@ -38,6 +38,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
         <Typography variant="headline" component="h2">
           {post.title}
         </Typography>
+        <Typography component="p">{post.intro}</Typography>
         <Typography component="p">{post.body}</Typography>
       </CardContent>
     </Card>

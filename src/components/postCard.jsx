@@ -42,7 +42,7 @@ function PostCard(props) {
         <Typography variant="headline" component="h2">
           {post.title}
         </Typography>
-        <Typography component="p">{post.body}</Typography>
+        <Typography component="p">{post.intro}</Typography>
       </CardContent>
       <CardActions>
         <Button href={`/posts/${post.id}`} size="small">
