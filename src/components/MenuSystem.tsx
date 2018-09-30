@@ -1,3 +1,8 @@
+import classNames from "classnames";
+import * as React from "react";
+import { Link, LinkProps } from "react-router-dom";
+
+// MATERIAL-UI IMPORTS
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
@@ -13,8 +18,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import InboxIcon from "@material-ui/icons/Inbox";
 import MenuIcon from "@material-ui/icons/Menu";
-import classNames from "classnames";
-import * as React from "react";
 
 const drawerWidth = 240;
 
@@ -76,6 +79,18 @@ const styles = (theme: Theme) =>
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       })
+    },
+    grow: {
+      flexGrow: 1
+    },
+    titleLink: {
+      textDecoration: "none",
+      "&:hover": {
+        color: "inherit"
+      },
+      "&:visited": {
+        color: "inherit"
+      }
     }
   });
 
@@ -99,6 +114,8 @@ class MenuSystem extends React.Component<
     const { classes, theme } = this.props;
     const { open } = this.state;
 
+    const LinkAllPosts = (props: LinkProps) => <Link to="/posts" {...props} />;
+
     const drawer = (
       <Drawer
         variant="persistent"
@@ -119,11 +136,11 @@ class MenuSystem extends React.Component<
         </div>
         <Divider />
         <List>
-          <ListItem>
+          <ListItem component={LinkAllPosts}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary="Inbox" />
+            <ListItemText primary="All posts" />
           </ListItem>
           <Divider />
         </List>
@@ -137,7 +154,8 @@ class MenuSystem extends React.Component<
             [classes.appBarShift]: open
           })}
         >
-          <Toolbar disableGutters={!open}>
+          {/* disableGutters={!open} */}
+          <Toolbar>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -146,10 +164,19 @@ class MenuSystem extends React.Component<
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap={true}>
-              Sam's blog
+            <Typography
+              variant="title"
+              className={classes.grow}
+              color="inherit"
+              noWrap={true}
+            >
+              <a className={classes.titleLink} href="/posts">
+                Sam's blog
+              </a>
             </Typography>
-            <Button href="/new">New post</Button>
+            <Button variant="contained" href="/new">
+              Add post
+            </Button>
           </Toolbar>
         </AppBar>
         {drawer}

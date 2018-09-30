@@ -1,7 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { RouteComponentProps } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  RouteComponentProps
+} from "react-router-dom";
 import MenuSystem from "./components/MenuSystem";
 import Post from "./components/Post";
 import EditPost from "./components/EditPost";
@@ -41,11 +45,7 @@ class App extends React.Component<any, any> {
               path="/posts/edit/:id"
               render={this.renderEditPost}
             />
-            <Route
-              exact={true}
-              path="/new"
-              render={this.renderEditPost}
-            />
+            <Route exact={true} path="/new" render={this.renderEditPost} />
           </Switch>
         </MenuSystem>
       </div>
