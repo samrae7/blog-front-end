@@ -54,10 +54,14 @@ class App extends React.Component<any, any> {
 
   private renderPostsList = () => <PostsList posts={this.state.posts} />;
 
-  private renderPost = (props: RouteComponentProps<IPost>) => {
+  private renderPost = (props: RouteComponentProps<any>) => {
     const { match } = props;
     return this.state.posts.length ? (
-      <Post post={this.state.posts[parseInt(match.params.id, null) - 1]} />
+      <Post
+        post={this.state.posts.find(
+          (post: IPost) => post.id === parseInt(match.params.id, 10)
+        )}
+      />
     ) : (
       <div> Not yet</div>
     );
@@ -65,10 +69,14 @@ class App extends React.Component<any, any> {
 
   // TODO DRY out
   // TODO rename render PostForm
-  private renderEditPost = (props: RouteComponentProps<IPost>) => {
+  private renderEditPost = (props: RouteComponentProps<any>) => {
     const { match } = props;
     return this.state.posts.length ? (
-      <EditPost post={this.state.posts[parseInt(match.params.id, null) - 1]} />
+      <EditPost
+        post={this.state.posts.find(
+          (post: IPost) => post.id === parseInt(match.params.id, 10)
+        )}
+      />
     ) : (
       <div> Not yet</div>
     );
