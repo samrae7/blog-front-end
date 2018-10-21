@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import * as React from "react";
 import { IPost } from "../types";
+import ImageSelect from "./ImageSelect";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -19,7 +20,6 @@ const styles = (theme: Theme) =>
       marginBottom: 12
     },
     container: {
-      display: "flex",
       flexWrap: "wrap"
     },
     textField: {
@@ -31,7 +31,8 @@ const styles = (theme: Theme) =>
       width: 200
     },
     button: {
-      margin: theme.spacing.unit
+      margin: theme.spacing.unit,
+      display: "block"
     }
   });
 
@@ -41,15 +42,19 @@ interface IPostProps extends WithStyles<typeof styles> {
 
 // TODO correct interface
 interface IEditPostState {
-  [key: string]: string;
+  imageKeys: string[];
+  selectedImageKey: string;
+  [key: string]: string | string[];
 }
 
-class Post extends React.Component<IPostProps, IEditPostState> {
+class EditPost extends React.Component<IPostProps, IEditPostState> {
   constructor(props: IPostProps) {
     super(props);
     this.state = {
       title: "",
-      body: ""
+      body: "",
+      imageKeys: [],
+      selectedImageKey: ""
     };
   }
 
@@ -60,6 +65,19 @@ class Post extends React.Component<IPostProps, IEditPostState> {
         body: this.props.post.body
       });
     }
+    this.getImageKeys();
+  }
+
+  public async getImageKeys() {
+    const response = await fetch("http://localhost:5000/api/s3upload", {
+      method: "GET"
+    });
+    const data = await response.json();
+    const imageKeys = this.getKeysFromS3Response(data);
+    this.setState({
+      imageKeys
+    });
+    return imageKeys;
   }
 
   public handleChange = (propName: string) => (
@@ -70,13 +88,20 @@ class Post extends React.Component<IPostProps, IEditPostState> {
     });
   };
 
+  public handleImageSelect = (selectedImageKey: string) => {
+    this.setState({
+      selectedImageKey
+    });
+  };
+
   public handleSave = (e: React.MouseEvent<HTMLElement>) => {
     if (this.props.post) {
       this.updatePost({ Title: this.state.title, Body: this.state.body });
     } else {
       this.createPost({
         Title: this.state.title,
-        Body: this.state.body
+        Body: this.state.body,
+        ImageId: this.state.selectedImageKey
       });
     }
   };
@@ -120,6 +145,7 @@ class Post extends React.Component<IPostProps, IEditPostState> {
           }}
           fullWidth={true}
           margin="normal"
+          defaultValue={this.props.post.title}
           value={title}
         />
         <TextField
@@ -133,6 +159,11 @@ class Post extends React.Component<IPostProps, IEditPostState> {
           margin="normal"
           value={body}
         />
+        <ImageSelect
+          selectedImageKey={this.state.selectedImageKey}
+          onImageSelect={this.handleImageSelect}
+          imageKeys={this.state.imageKeys}
+        />
         <Button
           variant="contained"
           color="primary"
@@ -145,27 +176,12 @@ class Post extends React.Component<IPostProps, IEditPostState> {
     );
   }
 
-  private guid = () => {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return (
-      s4() +
-      s4() +
-      "-" +
-      s4() +
-      "-" +
-      s4() +
-      "-" +
-      s4() +
-      "-" +
-      s4() +
-      s4() +
-      s4()
-    );
-  };
+  private getKeysFromS3Response(data: any): string[] {
+    const { s3Objects } = data;
+    return s3Objects.map((s3Object: any) => {
+      return s3Object.key;
+    });
+  }
 }
 
 // curl -X POST \
@@ -178,4 +194,4 @@ class Post extends React.Component<IPostProps, IEditPostState> {
 // 	"Body": "fasfsaf asf fasfjddddddd cnn n the cja ck"
 // }'
 
-export default withStyles(styles)(Post);
+export default withStyles(styles)(EditPost);
