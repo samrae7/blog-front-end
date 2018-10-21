@@ -1,4 +1,4 @@
 node_modules
 dist/**/*.js
-dist/**/*.map.js
+dist/**/*.js.map
 .vscode
