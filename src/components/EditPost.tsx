@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import * as React from "react";
 import { IPost } from "../types";
 import ImageSelect from "./ImageSelect";
+import ImageUpload from "./ImageUpload";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -33,6 +34,9 @@ const styles = (theme: Theme) =>
     button: {
       margin: theme.spacing.unit,
       display: "block"
+    },
+    imageControls: {
+      display: "flex"
     }
   });
 
@@ -96,7 +100,10 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
 
   public handleSave = (e: React.MouseEvent<HTMLElement>) => {
     if (this.props.post) {
-      this.updatePost({ Title: this.state.title, Body: this.state.body });
+      this.updatePost(
+        { Title: this.state.title, Body: this.state.body },
+        this.props.post.id
+      );
     } else {
       this.createPost({
         Title: this.state.title,
@@ -107,7 +114,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   };
 
   // TODO fix 'any'
-  public async updatePost(payload: any) {
+  public async updatePost(payload: any, id: number) {
     const fetchOptions: RequestInit = {
       method: "POST",
       headers: {
@@ -115,7 +122,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       },
       body: JSON.stringify(payload)
     };
-    return await fetch("http://localhost:5000/api/post/2", fetchOptions);
+    return await fetch(`http://localhost:5000/api/post/${id}`, fetchOptions);
   }
 
   public async createPost(payload: any) {
@@ -145,7 +152,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
           }}
           fullWidth={true}
           margin="normal"
-          defaultValue={this.props.post.title}
+          // defaultValue={this.props.post.title}
           value={title}
         />
         <TextField
@@ -159,11 +166,14 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
           margin="normal"
           value={body}
         />
-        <ImageSelect
-          selectedImageKey={this.state.selectedImageKey}
-          onImageSelect={this.handleImageSelect}
-          imageKeys={this.state.imageKeys}
-        />
+        <div className={classes.imageControls}>
+          <ImageSelect
+            selectedImageKey={this.state.selectedImageKey}
+            onImageSelect={this.handleImageSelect}
+            imageKeys={this.state.imageKeys}
+          />
+          <ImageUpload postId={this.props.post.id} />
+        </div>
         <Button
           variant="contained"
           color="primary"
@@ -183,15 +193,5 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     });
   }
 }
-
-// curl -X POST \
-//   http://localhost:5000/api/post/2 \
-//   -H 'Cache-Control: no-cache' \
-//   -H 'Content-Type: application/json' \
-//   -H 'Postman-Token: 963f2010-62ae-4a21-a778-4310a63ccb1a' \
-//   -d '{
-// 	"Title": "Updated titlexxx",
-// 	"Body": "fasfsaf asf fasfjddddddd cnn n the cja ck"
-// }'
 
 export default withStyles(styles)(EditPost);
