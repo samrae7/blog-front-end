@@ -80,6 +80,9 @@ class ImageUpload extends React.Component<
   }
 
   private updateFilename(): void {
+    if (this.file.size > 5000000) {
+      alert("File size cannot exceed 5MB");
+    }
     this.setState({
       filename: pathOr("", ["name"], this.file)
     });
@@ -93,13 +96,16 @@ class ImageUpload extends React.Component<
   private uploadFile() {
     const fetchOptions: RequestInit = {
       method: "POST",
-      body: this.file
+      body: this.file,
+      headers: {
+        "Content-Type": "application/octet-stream"
+      }
     };
     return fetch(
       `http://localhost:5000/api/post/image/${this.props.postId}`,
       fetchOptions
     )
-      .then(res => console.log("success", res.json()))
+      .then(res => console.log("success", res))
       .catch(err => console.log(err));
   }
 }
