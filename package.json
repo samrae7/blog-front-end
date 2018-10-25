@@ -2,9 +2,10 @@
   "name": "blog-material-ui",
   "version": "1.0.0",
   "description": "Sam's blog front end using material ui and react",
-  "main": "index.js",
+  "browser": "index.html",
   "scripts": {
     "build": "webpack --watch",
+    "predebug": "webpack && serve -s -l 8000",
     "serve": "serve -s -l 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
