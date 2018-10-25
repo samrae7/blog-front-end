@@ -8,6 +8,9 @@ import { IPost } from "../types";
 
 const styles = () =>
   createStyles({
+    image: {
+      maxWidth: 800
+    },
     card: {
       minWidth: 275
     },
@@ -31,6 +34,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
     <Card className={classes.card}>
       <CardContent>
         <img
+          className={classes.image}
           src={`https://s3.eu-west-2.amazonaws.com/secret-london-blog/${
             post.imageId
           }`}
