@@ -58,7 +58,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       title: "",
       body: "",
       imageKeys: [],
-      selectedImageKey: ""
+      selectedImageKey: this.props.post.imageId
     };
   }
 
@@ -101,7 +101,11 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   public handleSave = (e: React.MouseEvent<HTMLElement>) => {
     if (this.props.post) {
       this.updatePost(
-        { Title: this.state.title, Body: this.state.body },
+        {
+          Title: this.state.title,
+          Body: this.state.body,
+          ImageId: this.state.selectedImageKey
+        },
         this.props.post.id
       );
     } else {
