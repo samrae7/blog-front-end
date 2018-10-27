@@ -27,7 +27,7 @@ class ImageUpload extends React.Component<
   IImageUploadProps,
   IImageUploadState
 > {
-  private fileInput: any;
+  private fileInput: React.RefObject<HTMLInputElement>;
 
   constructor(props: IImageUploadProps) {
     super(props);
@@ -98,7 +98,8 @@ class ImageUpload extends React.Component<
       method: "POST",
       body: this.file,
       headers: {
-        "Content-Type": "application/octet-stream"
+        "Content-Type": "application/octet-stream",
+        filename: this.file.name
       }
     };
     return fetch(
