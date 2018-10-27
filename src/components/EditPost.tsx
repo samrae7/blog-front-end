@@ -7,6 +7,7 @@ import * as React from "react";
 import { IPost } from "../types";
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
+import { Link } from "react-router-dom";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -42,6 +43,7 @@ const styles = (theme: Theme) =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
+  onSave: () => void;
 }
 
 // TODO correct interface
@@ -58,7 +60,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       title: "",
       body: "",
       imageKeys: [],
-      selectedImageKey: this.props.post.imageId
+      selectedImageKey: this.props.post ? this.props.post.imageId : ""
     };
   }
 
@@ -146,47 +148,58 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     const { title, body } = this.state;
     const { classes } = this.props;
     return (
-      <form className={classes.container} noValidate={true} autoComplete="off">
-        <TextField
-          id="full-width"
-          label="Title"
-          onChange={this.handleChange("title")}
-          InputLabelProps={{
-            shrink: true
-          }}
-          fullWidth={true}
-          margin="normal"
-          // defaultValue={this.props.post.title}
-          value={title}
-        />
-        <TextField
-          id="full-width"
-          label="Main text"
-          onChange={this.handleChange("body")}
-          InputLabelProps={{
-            shrink: true
-          }}
-          fullWidth={true}
-          margin="normal"
-          value={body}
-        />
-        <div className={classes.imageControls}>
-          <ImageSelect
-            selectedImageKey={this.state.selectedImageKey}
-            onImageSelect={this.handleImageSelect}
-            imageKeys={this.state.imageKeys}
-          />
-          <ImageUpload postId={this.props.post.id} />
-        </div>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={this.handleSave}
+      <div>
+        <form
+          className={classes.container}
+          noValidate={true}
+          autoComplete="off"
         >
-          Save
-        </Button>
-      </form>
+          <TextField
+            id="full-width"
+            label="Title"
+            onChange={this.handleChange("title")}
+            InputLabelProps={{
+              shrink: true
+            }}
+            fullWidth={true}
+            margin="normal"
+            // defaultValue={this.props.post.title}
+            value={title}
+          />
+          <TextField
+            id="full-width"
+            label="Main text"
+            onChange={this.handleChange("body")}
+            InputLabelProps={{
+              shrink: true
+            }}
+            fullWidth={true}
+            margin="normal"
+            value={body}
+          />
+          <div className={classes.imageControls}>
+            <ImageSelect
+              selectedImageKey={this.state.selectedImageKey}
+              onImageSelect={this.handleImageSelect}
+              imageKeys={this.state.imageKeys}
+            />
+            {this.props.post ? (
+              <ImageUpload postId={this.props.post.id} />
+            ) : null}
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={this.handleSave}
+          >
+            Save
+          </Button>
+        </form>
+        {this.props.post ? (
+          <Link to={`/posts/${this.props.post.id}`}>View post</Link>
+        ) : null}
+      </div>
     );
   }
 
