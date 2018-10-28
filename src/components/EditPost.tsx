@@ -43,14 +43,24 @@ const styles = (theme: Theme) =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
-  onSave: () => void;
+  onSave: (postPayload: any, postId?: number) => void;
 }
 
 // TODO correct interface
 interface IEditPostState {
   imageKeys: string[];
   selectedImageKey: string;
+  title: string;
+  body: string;
+  // TODO refactor so that this generic type is not necessary
   [key: string]: string | string[];
+}
+
+// TODO find out if capitalisation is necessary
+export interface IPostPayload {
+  Title: string;
+  Body: string;
+  ImageId: string;
 }
 
 class EditPost extends React.Component<IPostProps, IEditPostState> {
@@ -100,48 +110,17 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     });
   };
 
-  public handleSave = (e: React.MouseEvent<HTMLElement>) => {
-    if (this.props.post) {
-      this.updatePost(
-        {
-          Title: this.state.title,
-          Body: this.state.body,
-          ImageId: this.state.selectedImageKey
-        },
-        this.props.post.id
-      );
-    } else {
-      this.createPost({
-        Title: this.state.title,
-        Body: this.state.body,
-        ImageId: this.state.selectedImageKey
-      });
-    }
+  public handleSave = () => {
+    const postId = this.props.post ? this.props.post.id : null;
+    this.props.onSave(this.postPayload, postId);
   };
 
-  // TODO fix 'any'
-  public async updatePost(payload: any, id: number) {
-    const fetchOptions: RequestInit = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
+  get postPayload(): IPostPayload {
+    return {
+      Title: this.state.title,
+      Body: this.state.body,
+      ImageId: this.state.selectedImageKey
     };
-    return await fetch(`http://localhost:5000/api/post/${id}`, fetchOptions);
-  }
-
-  public async createPost(payload: any) {
-    const fetchOptions: RequestInit = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    };
-    return fetch("http://localhost:5000/api/post", fetchOptions)
-      .then(res => console.log("success", res.json()))
-      .catch(err => console.log(err));
   }
 
   public render() {

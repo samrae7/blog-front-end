@@ -11,6 +11,7 @@ import Post from "./components/Post";
 import EditPost from "./components/EditPost";
 import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
+import { IPostPayload } from "./components/EditPost";
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -73,6 +74,7 @@ class App extends React.Component<any, any> {
     const { match } = props;
     return this.state.posts.length ? (
       <EditPost
+        onSave={this.handlePostSave}
         post={this.state.posts.find(
           (post: IPost) => post.id === parseInt(match.params.id, 10)
         )}
@@ -81,6 +83,32 @@ class App extends React.Component<any, any> {
       <div> Not yet</div>
     );
   };
+
+  private handlePostSave = (postPayload: IPostPayload, postId?: number) => {
+    const url = postId
+      ? `http://localhost:5000/api/post/${postId}`
+      : "http://localhost:5000/api/post";
+    this.updateOrCreatePost(postPayload, url);
+  };
+
+  // TODO factor out into it's own module
+  private async updateOrCreatePost(payload: IPostPayload, url: string) {
+    const fetchOptions: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    };
+    return fetch(url, fetchOptions)
+      .then(res => res.json())
+      .then(posts => {
+        this.setState({
+          posts
+        });
+      })
+      .catch(err => console.log(err));
+  }
 }
 
 const el = document.querySelector("#app");
