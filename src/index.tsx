@@ -69,8 +69,8 @@ class App extends React.Component<any, any> {
   };
 
   // TODO DRY out
-  // TODO rename render PostForm
-  private renderEditPost = (props: RouteComponentProps<any>) => {
+  // TODO rename to renderPostForm
+  private renderEditPost = (props: RouteComponentProps<{ id: string }>) => {
     const { match } = props;
     return this.state.posts.length ? (
       <EditPost
@@ -91,7 +91,7 @@ class App extends React.Component<any, any> {
     this.updateOrCreatePost(postPayload, url);
   };
 
-  // TODO factor out into it's own module
+  // TODO factor out into an api module
   private async updateOrCreatePost(payload: IPostPayload, url: string) {
     const fetchOptions: RequestInit = {
       method: "POST",
