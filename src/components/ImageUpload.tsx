@@ -17,7 +17,10 @@ const styles = (theme: Theme) =>
   });
 
 interface IImageUploadProps extends WithStyles<typeof styles> {
+  // TODO remove postId as not needed anymore
   postId: number;
+  // TODO fix any
+  onUploadImage: (file: any) => void;
 }
 interface IImageUploadState {
   filename: string;
@@ -32,7 +35,6 @@ class ImageUpload extends React.Component<
   constructor(props: IImageUploadProps) {
     super(props);
     this.fileInput = React.createRef();
-    this.uploadFile = this.uploadFile.bind(this);
     this.updateFilename = this.updateFilename.bind(this);
     this.handleUploadClick = this.handleUploadClick.bind(this);
     this.state = {
@@ -90,24 +92,7 @@ class ImageUpload extends React.Component<
 
   private handleUploadClick() {
     event.preventDefault();
-    this.uploadFile();
-  }
-
-  private uploadFile() {
-    const fetchOptions: RequestInit = {
-      method: "POST",
-      body: this.file,
-      headers: {
-        "Content-Type": "application/octet-stream",
-        filename: this.file.name
-      }
-    };
-    return fetch(
-      `http://localhost:5000/api/post/image/${this.props.postId}`,
-      fetchOptions
-    )
-      .then(res => console.log("success", res))
-      .catch(err => console.log(err));
+    this.props.onUploadImage(this.file);
   }
 }
 

@@ -1,13 +1,14 @@
+import * as React from "react";
+import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import * as React from "react";
-import { IPost } from "../types";
+
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
-import { Link } from "react-router-dom";
+import { IPost } from "../types";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -43,7 +44,7 @@ const styles = (theme: Theme) =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
-  onSave: (postPayload: any, postId?: number) => void;
+  onSave: (postPayload: IPostPayload, postId?: number) => void;
 }
 
 // TODO correct interface
@@ -72,6 +73,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       imageKeys: [],
       selectedImageKey: this.props.post ? this.props.post.imageId : ""
     };
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   public componentDidMount() {
@@ -142,7 +144,6 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
             }}
             fullWidth={true}
             margin="normal"
-            // defaultValue={this.props.post.title}
             value={title}
           />
           <TextField
@@ -163,7 +164,10 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
               imageKeys={this.state.imageKeys}
             />
             {this.props.post ? (
-              <ImageUpload postId={this.props.post.id} />
+              <ImageUpload
+                onUploadImage={this.uploadImage}
+                postId={this.props.post.id}
+              />
             ) : null}
           </div>
           <Button
@@ -180,6 +184,25 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
         ) : null}
       </div>
     );
+  }
+
+  private uploadImage(file: any) {
+    const fetchOptions: RequestInit = {
+      method: "POST",
+      body: file,
+      headers: {
+        "Content-Type": "application/octet-stream",
+        filename: file.name
+      }
+    };
+    return fetch(`http://localhost:5000/api/s3Upload/image`, fetchOptions)
+      .then(res => res.text())
+      .then(key => {
+        this.setState({
+          selectedImageKey: key
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   private getKeysFromS3Response(data: any): string[] {
