@@ -26,7 +26,6 @@ interface IImageSelectProps extends WithStyles<typeof styles> {
 }
 
 class ImageSelect extends React.Component<IImageSelectProps, null> {
-
   public render() {
     const { classes, imageKeys } = this.props;
 
@@ -34,7 +33,7 @@ class ImageSelect extends React.Component<IImageSelectProps, null> {
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="image-select">Image</InputLabel>
         <Select
-          value={this.props.selectedImageKey}
+          value={this.props.selectedImageKey || ""}
           onChange={this.handleChange}
           inputProps={{
             name: "image",
@@ -44,7 +43,7 @@ class ImageSelect extends React.Component<IImageSelectProps, null> {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {this.props.imageKeys.map(key => {
+          {imageKeys.map(key => {
             return (
               <MenuItem key={key} value={key}>
                 {key}

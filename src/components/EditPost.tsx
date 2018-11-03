@@ -9,18 +9,12 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
 import { IPost } from "../types";
+import { AWS_BUCKET_BASE_URL } from "../constants";
 
 const styles = (theme: Theme) =>
   createStyles({
-    card: {
-      minWidth: 275
-    },
-    title: {
-      marginBottom: 16,
-      fontSize: 14
-    },
-    pos: {
-      marginBottom: 12
+    image: {
+      maxWidth: 800
     },
     container: {
       flexWrap: "wrap"
@@ -28,9 +22,6 @@ const styles = (theme: Theme) =>
     textField: {
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
-      width: 200
-    },
-    menu: {
       width: 200
     },
     button: {
@@ -71,7 +62,8 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       title: "",
       body: "",
       imageKeys: [],
-      selectedImageKey: this.props.post ? this.props.post.imageId : ""
+      // TODO take this out?
+      selectedImageKey: null
     };
     this.uploadImage = this.uploadImage.bind(this);
   }
@@ -80,7 +72,8 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     if (this.props.post) {
       this.setState({
         title: this.props.post.title,
-        body: this.props.post.body
+        body: this.props.post.body,
+        selectedImageKey: this.props.post.imageId || null
       });
     }
     this.getImageKeys();
@@ -126,10 +119,16 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   }
 
   public render() {
-    const { title, body } = this.state;
+    const { title, body, selectedImageKey } = this.state;
     const { classes } = this.props;
     return (
       <div>
+        {selectedImageKey && (
+          <img
+            className={classes.image}
+            src={`${AWS_BUCKET_BASE_URL}${selectedImageKey}`}
+          />
+        )}
         <form
           className={classes.container}
           noValidate={true}
@@ -199,6 +198,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       .then(res => res.text())
       .then(key => {
         this.setState({
+          imageKeys: [...this.state.imageKeys, key],
           selectedImageKey: key
         });
       })

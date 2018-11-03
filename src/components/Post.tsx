@@ -7,6 +7,7 @@ import { createStyles, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import { IPost } from "../types";
+import { AWS_BUCKET_BASE_URL } from "../constants";
 
 const styles = () =>
   createStyles({
@@ -35,12 +36,12 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <img
-          className={classes.image}
-          src={`https://s3.eu-west-2.amazonaws.com/secret-london-blog/${
-            post.imageId
-          }`}
-        />
+        {post.imageId && (
+          <img
+            className={classes.image}
+            src={`${AWS_BUCKET_BASE_URL}${post.imageId}`}
+          />
+        )}
         <Typography className={classes.title} color="textSecondary">
           {new Date(post.dateCreated).toDateString()}
         </Typography>
