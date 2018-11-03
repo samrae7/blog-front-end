@@ -17,10 +17,7 @@ const styles = (theme: Theme) =>
   });
 
 interface IImageUploadProps extends WithStyles<typeof styles> {
-  // TODO remove postId as not needed anymore
-  postId: number;
-  // TODO fix any
-  onUploadImage: (file: any) => void;
+  onUploadImage: (file: File) => void;
 }
 interface IImageUploadState {
   filename: string;
