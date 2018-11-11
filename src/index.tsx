@@ -12,6 +12,7 @@ import EditPost from "./components/EditPost";
 import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
+import { API_BASE_URL } from "./constants";
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -24,7 +25,7 @@ class App extends React.Component<any, any> {
   }
 
   public async getPosts() {
-    const response = await fetch("http://localhost:5000/api/post", {
+    const response = await fetch(`${API_BASE_URL}/post`, {
       method: "GET"
     });
     const data = await response.json();
@@ -85,10 +86,9 @@ class App extends React.Component<any, any> {
   };
 
   private handlePostSave = (postPayload: IPostPayload, postId?: number) => {
-    const url = postId
-      ? `http://localhost:5000/api/post/${postId}`
-      : "http://localhost:5000/api/post";
-    this.updateOrCreatePost(postPayload, url);
+    const path = postId ? `/post/${postId}` : `/post`;
+    const url = `${API_BASE_URL}${path}`;
+    return this.updateOrCreatePost(postPayload, url);
   };
 
   // TODO factor out into an api module

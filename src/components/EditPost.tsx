@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { createStyles, withStyles } from "@material-ui/core/styles";
@@ -9,7 +9,7 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
 import { IPost } from "../types";
-import { AWS_BUCKET_BASE_URL } from "../constants";
+import { AWS_BUCKET_BASE_URL, API_BASE_URL } from "../constants";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,17 +35,15 @@ const styles = (theme: Theme) =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
-  onSave: (postPayload: IPostPayload, postId?: number) => void;
+  onSave: (postPayload: IPostPayload, postId?: number) => Promise<void>;
 }
 
-// TODO correct interface
 interface IEditPostState {
   imageKeys: string[];
   selectedImageKey: string;
+  isSaved: boolean;
   title: string;
   body: string;
-  // TODO refactor so that this generic type is not necessary
-  [key: string]: string | string[];
 }
 
 // TODO find out if capitalisation is necessary
@@ -62,8 +60,8 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       title: "",
       body: "",
       imageKeys: [],
-      // TODO take this out?
-      selectedImageKey: null
+      selectedImageKey: null,
+      isSaved: false
     };
     this.uploadImage = this.uploadImage.bind(this);
   }
@@ -80,7 +78,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   }
 
   public async getImageKeys() {
-    const response = await fetch("http://localhost:5000/api/s3upload", {
+    const response = await fetch(`${API_BASE_URL}/s3upload`, {
       method: "GET"
     });
     const data = await response.json();
@@ -91,11 +89,15 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     return imageKeys;
   }
 
-  public handleChange = (propName: string) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  public handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [propName]: event.target.value
+      title: event.target.value
+    });
+  };
+
+  public handleBodyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      body: event.target.value
     });
   };
 
@@ -107,7 +109,11 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
 
   public handleSave = () => {
     const postId = this.props.post ? this.props.post.id : null;
-    this.props.onSave(this.postPayload, postId);
+    this.props.onSave(this.postPayload, postId).then(() =>
+      this.setState({
+        isSaved: true
+      })
+    );
   };
 
   get postPayload(): IPostPayload {
@@ -119,14 +125,15 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   }
 
   public render() {
-    const { title, body, selectedImageKey } = this.state;
-    const { classes } = this.props;
+    const { title, body, selectedImageKey, isSaved } = this.state;
+    const { classes, post } = this.props;
     return (
       <div>
+        {isSaved && <Redirect to={`/posts/${post.id}`} />}
         {selectedImageKey && (
           <img
             className={classes.image}
-            src={`${AWS_BUCKET_BASE_URL}${selectedImageKey}`}
+            src={`${AWS_BUCKET_BASE_URL}/${selectedImageKey}`}
           />
         )}
         <form
@@ -137,7 +144,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
           <TextField
             id="full-width"
             label="Title"
-            onChange={this.handleChange("title")}
+            onChange={this.handleTitleChange}
             InputLabelProps={{
               shrink: true
             }}
@@ -148,7 +155,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
           <TextField
             id="full-width"
             label="Main text"
-            onChange={this.handleChange("body")}
+            onChange={this.handleBodyChange}
             InputLabelProps={{
               shrink: true
             }}
@@ -162,12 +169,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
               onImageSelect={this.handleImageSelect}
               imageKeys={this.state.imageKeys}
             />
-            {this.props.post ? (
-              <ImageUpload
-                onUploadImage={this.uploadImage}
-                postId={this.props.post.id}
-              />
-            ) : null}
+            <ImageUpload onUploadImage={this.uploadImage} />
           </div>
           <Button
             variant="contained"
@@ -178,9 +180,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
             Save
           </Button>
         </form>
-        {this.props.post ? (
-          <Link to={`/posts/${this.props.post.id}`}>View post</Link>
-        ) : null}
+        {post ? <Link to={`/posts/${post.id}`}>View post</Link> : null}
       </div>
     );
   }
@@ -194,7 +194,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
         filename: file.name
       }
     };
-    return fetch(`http://localhost:5000/api/s3Upload/image`, fetchOptions)
+    return fetch(`${API_BASE_URL}/s3Upload/image`, fetchOptions)
       .then(res => res.text())
       .then(key => {
         this.setState({

@@ -39,7 +39,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
         {post.imageId && (
           <img
             className={classes.image}
-            src={`${AWS_BUCKET_BASE_URL}${post.imageId}`}
+            src={`${AWS_BUCKET_BASE_URL}/${post.imageId}`}
           />
         )}
         <Typography className={classes.title} color="textSecondary">
