@@ -47,7 +47,7 @@ class App extends React.Component<any, any> {
               path="/posts/edit/:id"
               render={this.renderEditPost}
             />
-            <Route exact={true} path="/new" render={this.renderEditPost} />
+            <Route exact={true} path="/new" render={this.renderCreatePost} />
           </Switch>
         </MenuSystem>
       </div>
@@ -85,10 +85,31 @@ class App extends React.Component<any, any> {
     );
   };
 
-  private handlePostSave = (postPayload: IPostPayload, postId?: number) => {
-    const path = postId ? `/post/${postId}` : `/post`;
-    const url = `${API_BASE_URL}${path}`;
-    return this.updateOrCreatePost(postPayload, url);
+  private renderCreatePost = (props: RouteComponentProps<{ id: string }>) => {
+    return <EditPost onCreate={this.handlePostCreate} post={null} />;
+  };
+
+  private handlePostSave = (postPayload: IPostPayload, postId: number) => {
+    const url = `${API_BASE_URL}/post/${postId}`;
+    return this.updateOrCreatePost(postPayload, url)
+      .then(posts => {
+        this.setState({
+          posts
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  private handlePostCreate = (postPayload: IPostPayload) => {
+    const url = `${API_BASE_URL}/post`;
+    return this.updateOrCreatePost(postPayload, url)
+      .then(post => {
+        this.setState({
+          posts: [...this.state.posts, post]
+        });
+        return post;
+      })
+      .catch(err => console.log(err));
   };
 
   // TODO factor out into an api module
@@ -100,14 +121,7 @@ class App extends React.Component<any, any> {
       },
       body: JSON.stringify(payload)
     };
-    return fetch(url, fetchOptions)
-      .then(res => res.json())
-      .then(posts => {
-        this.setState({
-          posts
-        });
-      })
-      .catch(err => console.log(err));
+    return fetch(url, fetchOptions).then(res => res.json());
   }
 }
 

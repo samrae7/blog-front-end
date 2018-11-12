@@ -35,15 +35,17 @@ const styles = (theme: Theme) =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
-  onSave: (postPayload: IPostPayload, postId?: number) => Promise<void>;
+  onSave?: (postPayload: IPostPayload, postId: number) => Promise<void>;
+  onCreate?: (postPayload: IPostPayload) => Promise<IPost>;
 }
 
 interface IEditPostState {
   imageKeys: string[];
   selectedImageKey: string;
-  isSaved: boolean;
+  fireRedirect: boolean;
   title: string;
   body: string;
+  createdPostId: string;
 }
 
 // TODO find out if capitalisation is necessary
@@ -61,7 +63,8 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
       body: "",
       imageKeys: [],
       selectedImageKey: null,
-      isSaved: false
+      fireRedirect: false,
+      createdPostId: ""
     };
     this.uploadImage = this.uploadImage.bind(this);
   }
@@ -109,11 +112,20 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
 
   public handleSave = () => {
     const postId = this.props.post ? this.props.post.id : null;
-    this.props.onSave(this.postPayload, postId).then(() =>
-      this.setState({
-        isSaved: true
-      })
-    );
+    if (postId) {
+      this.props.onSave(this.postPayload, postId).then(() =>
+        this.setState({
+          fireRedirect: true
+        })
+      );
+    } else {
+      this.props.onCreate(this.postPayload).then(post =>
+        this.setState({
+          createdPostId: post.id.toString(),
+          fireRedirect: true
+        })
+      );
+    }
   };
 
   get postPayload(): IPostPayload {
@@ -125,11 +137,10 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
   }
 
   public render() {
-    const { title, body, selectedImageKey, isSaved } = this.state;
+    const { title, body, selectedImageKey, fireRedirect } = this.state;
     const { classes, post } = this.props;
     return (
       <div>
-        {isSaved && <Redirect to={`/posts/${post.id}`} />}
         {selectedImageKey && (
           <img
             className={classes.image}
@@ -181,6 +192,13 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
           </Button>
         </form>
         {post ? <Link to={`/posts/${post.id}`}>View post</Link> : null}
+        {fireRedirect && (
+          <Redirect
+            to={
+              post ? `/posts/${post.id}` : `/posts/${this.state.createdPostId}`
+            }
+          />
+        )}
       </div>
     );
   }
@@ -194,7 +212,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
         filename: file.name
       }
     };
-    return fetch(`${API_BASE_URL}/s3Upload/image`, fetchOptions)
+    return fetch(`${API_BASE_URL}/s3Upload`, fetchOptions)
       .then(res => res.text())
       .then(key => {
         this.setState({
