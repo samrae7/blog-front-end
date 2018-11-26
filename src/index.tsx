@@ -121,7 +121,11 @@ class App extends React.Component<any, any> {
       },
       body: JSON.stringify(payload)
     };
-    return fetch(url, fetchOptions).then(res => res.json());
+    return fetch(url, fetchOptions).then(res => {
+      // TODO use Location header to redirect
+      console.log(res.headers.get("Location"));
+      return res.json();
+    });
   }
 }
 
