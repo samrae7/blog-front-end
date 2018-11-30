@@ -1,5 +1,5 @@
 import * as React from "react";
-import PostCard from './PostCard';
+import PostCard from './XPostCard';
 
 class PostsList extends React.Component {
   render() {
