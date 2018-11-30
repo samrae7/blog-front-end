@@ -29,7 +29,7 @@ steps:
 
   - task: AzureRmWebAppDeployment@3
     inputs:
-      azureSubscription: "Free Trial (065ac3e2-8881-469a-b2fd-bda85915e5c4)"
+      azureSubscription: 065ac3e2-8881-469a-b2fd-bda85915e5c4
       WebAppName: "blogFE"
       Package: "$(Build.ArtifactStagingDirectory)"
       GenerateWebConfig: true
