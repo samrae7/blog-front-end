@@ -10,7 +10,7 @@ import MenuSystem from "./components/MenuSystem";
 import Post from "./components/Post";
 import EditPost from "./components/EditPost";
 import { IPost } from "./types";
-import { PostsList } from "./components/PostsList";
+import { PostsList } from "./components/PostsList.jsx";
 import { IPostPayload } from "./components/EditPost";
 import { API_BASE_URL } from "./constants";
 
