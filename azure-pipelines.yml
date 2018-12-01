@@ -29,7 +29,7 @@ steps:
 
   - task: AzureRmWebAppDeployment@3
     inputs:
-      azureSubscription: blogFEConnection
+      azureSubscription: "blogFEConnection"
       WebAppName: "blogFE"
       Package: "$(Build.ArtifactStagingDirectory)"
       GenerateWebConfig: true
