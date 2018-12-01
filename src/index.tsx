@@ -12,7 +12,7 @@ import EditPost from "./components/EditPost";
 import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
-import { API_BASE_URL } from "./constants";
+const { API_BASE_URL } = process.env;
 
 class App extends React.Component<any, any> {
   constructor(props: any) {

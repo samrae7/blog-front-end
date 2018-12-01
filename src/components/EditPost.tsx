@@ -9,7 +9,8 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
 import { IPost } from "../types";
-import { AWS_BUCKET_BASE_URL, API_BASE_URL } from "../constants";
+import { AWS_BUCKET_BASE_URL } from "../constants";
+const { API_BASE_URL } = process.env;
 
 const styles = (theme: Theme) =>
   createStyles({
