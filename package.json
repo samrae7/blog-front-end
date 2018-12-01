@@ -4,8 +4,8 @@
   "description": "Sam's blog front end using material ui and react",
   "browser": "index.html",
   "scripts": {
-    "build-watch": "webpack --watch",
-    "build": "webpack",
+    "build:dev": "webpack --define process.env.API_BASE_URL='\"http://localhost:5000/api\"' --watch",
+    "build": "webpack --define process.env.API_BASE_URL='\"http://blogapi.azurewebsites.net/api\"'",
     "predebug": "webpack && serve -s -l 8000",
     "serve": "serve -s -l 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
