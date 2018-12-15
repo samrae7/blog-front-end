@@ -98,8 +98,12 @@ interface IDrawerState {
   open: boolean;
 }
 
+interface IDrawerProps extends WithStyles<typeof styles> {
+    renderLoginControl: () => JSX.Element;
+}
+
 class MenuSystem extends React.Component<
-  WithStyles<typeof styles>,
+  IDrawerProps,
   IDrawerState
 > {
   public state = {
@@ -177,6 +181,7 @@ class MenuSystem extends React.Component<
             <Button variant="contained" href="/new">
               Add post
             </Button>
+            {this.props.renderLoginControl()}
           </Toolbar>
         </AppBar>
         {drawer}

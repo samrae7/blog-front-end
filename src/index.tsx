@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {
   BrowserRouter,
+  Router,
   Route,
   Switch,
   RouteComponentProps
@@ -13,11 +14,18 @@ import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
 const { API_BASE_URL } = process.env;
+import AuthService from "./services/AuthService";
+import LoginControl from "./components/LoginControl";
+import Callback from "./components/Callback";
+import history from "./history";
 
 class App extends React.Component<any, any> {
+  private authService: AuthService;
+
   constructor(props: any) {
     super(props);
     this.state = { posts: [] };
+    this.authService = new AuthService();
   }
 
   public componentDidMount() {
@@ -35,10 +43,14 @@ class App extends React.Component<any, any> {
     return data;
   }
 
+  public renderLoginControl = () => {
+    return <LoginControl authService={this.authService} />;
+  };
+
   public render() {
     return (
       <div>
-        <MenuSystem>
+        <MenuSystem renderLoginControl={this.renderLoginControl}>
           <Switch>
             <Route exact={true} path="/posts" render={this.renderPostsList} />
             <Route exact={true} path="/posts/:id" render={this.renderPost} />
@@ -48,6 +60,7 @@ class App extends React.Component<any, any> {
               render={this.renderEditPost}
             />
             <Route exact={true} path="/new" render={this.renderCreatePost} />
+            <Route exact={true} path="/callback" render={this.renderCallback} />
           </Switch>
         </MenuSystem>
       </div>
@@ -87,6 +100,10 @@ class App extends React.Component<any, any> {
 
   private renderCreatePost = (props: RouteComponentProps<{ id: string }>) => {
     return <EditPost onCreate={this.handlePostCreate} post={null} />;
+  };
+
+  private renderCallback = (props: RouteComponentProps<{}>) => {
+    return <Callback {...props} authService={this.authService} />;
   };
 
   private handlePostSave = (postPayload: IPostPayload, postId: number) => {
@@ -132,8 +149,8 @@ class App extends React.Component<any, any> {
 const el = document.querySelector("#app");
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router history={history}>
     <App />
-  </BrowserRouter>,
+  </Router>,
   el
 );
