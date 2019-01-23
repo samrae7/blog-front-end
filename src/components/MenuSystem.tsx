@@ -99,13 +99,10 @@ interface IDrawerState {
 }
 
 interface IDrawerProps extends WithStyles<typeof styles> {
-    renderLoginControl: () => JSX.Element;
+  renderLoginControl: () => JSX.Element;
 }
 
-class MenuSystem extends React.Component<
-  IDrawerProps,
-  IDrawerState
-> {
+class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
   public state = {
     open: false
   };
@@ -174,12 +171,12 @@ class MenuSystem extends React.Component<
               color="inherit"
               noWrap={true}
             >
-              <a className={classes.titleLink} href="/posts">
+              <Link className={classes.titleLink} to="/posts">
                 Sam's blog
-              </a>
+              </Link>
             </Typography>
-            <Button variant="contained" href="/new">
-              Add post
+            <Button variant="contained">
+              <Link to="/new">Add post</Link>
             </Button>
             {this.props.renderLoginControl()}
           </Toolbar>

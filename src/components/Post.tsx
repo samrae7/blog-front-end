@@ -8,6 +8,7 @@ import { WithStyles } from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import { IPost } from "../types";
 import { AWS_BUCKET_BASE_URL } from "../constants";
+import { Link } from "react-router-dom";
 
 const styles = () =>
   createStyles({
@@ -50,8 +51,8 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
         </Typography>
         <Typography component="p">{post.intro}</Typography>
         <Typography component="p">{post.body}</Typography>
-        <Button variant="contained" href={`edit/${post.id}`}>
-          Edit post
+        <Button variant="contained">
+          <Link to={`edit/${post.id}`}>Edit post</Link>
         </Button>
       </CardContent>
     </Card>

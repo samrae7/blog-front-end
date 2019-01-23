@@ -6,6 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 
 PostCard.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -45,8 +46,8 @@ function PostCard(props) {
         <Typography component="p">{post.intro}</Typography>
       </CardContent>
       <CardActions>
-        <Button href={`/posts/${post.id}`} size="small">
-          Read more
+        <Button size="small">
+          <Link to={`/posts/${post.id}`}>Read more</Link>
         </Button>
       </CardActions>
     </Card>
