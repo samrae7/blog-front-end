@@ -1,13 +1,21 @@
 import Button from "@material-ui/core/Button";
 import * as React from "react";
-import AuthService from "../services/AuthService";
 
 interface ILoginControlProps {
-  authService: AuthService;
+  authService: any;
 }
 
-const LoginControl: React.StatelessComponent<ILoginControlProps> = (props: ILoginControlProps): JSX.Element => {
-  return (
+const LoginControl: React.StatelessComponent<ILoginControlProps> = (
+  props: ILoginControlProps
+): JSX.Element => {
+  const {
+    authService: { isAuthenticated }
+  } = props;
+  return isAuthenticated() ? (
+    <Button color="inherit" onClick={props.authService.logout}>
+      Logout
+    </Button>
+  ) : (
     <Button color="inherit" onClick={props.authService.login}>
       Login
     </Button>
