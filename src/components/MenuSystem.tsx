@@ -155,7 +155,6 @@ class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
             [classes.appBarShift]: open
           })}
         >
-          {/* disableGutters={!open} */}
           <Toolbar>
             <IconButton
               color="inherit"
