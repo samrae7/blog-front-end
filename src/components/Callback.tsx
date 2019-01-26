@@ -4,7 +4,6 @@ import * as React from "react";
 
 class Callback extends React.Component<any, any> {
   public componentWillMount() {
-    console.log("uuu", this.props.location);
     this.handleAuth();
   }
 
