@@ -18,6 +18,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import InboxIcon from "@material-ui/icons/Inbox";
 import MenuIcon from "@material-ui/icons/Menu";
+import AuthAware from "./AuthAware";
 
 const drawerWidth = 240;
 
@@ -174,9 +175,7 @@ class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
                 Sam's blog
               </Link>
             </Typography>
-            <Button variant="contained">
-              <Link to="/new">Add post</Link>
-            </Button>
+            <AuthAware render={this.renderAddPostButton} />
             {this.props.renderLoginControl()}
           </Toolbar>
         </AppBar>
@@ -192,6 +191,12 @@ class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
       </div>
     );
   }
+
+  private renderAddPostButton = () => (
+    <Button variant="contained">
+      <Link to="/new">Add post</Link>
+    </Button>
+  );
 }
 
 export default withStyles(styles, { withTheme: true })(MenuSystem);

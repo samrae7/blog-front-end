@@ -13,7 +13,7 @@ import LoginControl from "./components/LoginControl";
 import Callback from "./components/Callback";
 import history from "./history";
 
-const authService = new AuthService();
+export const authService = new AuthService();
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
