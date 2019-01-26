@@ -1,5 +1,6 @@
 import auth0 from "auth0-js";
 import history from "../history";
+import { randomString } from "../helpers";
 
 class AuthService {
   private accessToken: string;
@@ -28,7 +29,7 @@ class AuthService {
   }
 
   public login() {
-    this.nonce = "1234";
+    this.nonce = randomString(8);
     this.auth0.authorize({ nonce: this.nonce });
     localStorage.setItem(this.nonce, history.location.pathname);
   }
