@@ -46,7 +46,7 @@ class App extends React.Component<any, any> {
   }
 
   public renderLoginControl = () => {
-    return <LoginControl authService={authService} />;
+    return <LoginControl authService={authService}/>;
   };
 
   public render() {
@@ -77,6 +77,7 @@ class App extends React.Component<any, any> {
     const { match } = props;
     return this.state.posts.length ? (
       <Post
+        isAuthenticated={authService.isAuthenticated}
         post={this.state.posts.find(
           (post: IPost) => post.id === parseInt(match.params.id, 10)
         )}

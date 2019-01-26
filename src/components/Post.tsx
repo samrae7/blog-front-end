@@ -29,10 +29,11 @@ const styles = () =>
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
+  isAuthenticated: () => boolean;
 }
 
 const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
-  const { classes, post } = props;
+  const { classes, post, isAuthenticated } = props;
 
   return (
     <Card className={classes.card}>
@@ -51,9 +52,11 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
         </Typography>
         <Typography component="p">{post.intro}</Typography>
         <Typography component="p">{post.body}</Typography>
-        <Button variant="contained">
-          <Link to={`edit/${post.id}`}>Edit post</Link>
-        </Button>
+        {isAuthenticated() && (
+          <Button variant="contained">
+            <Link to={`edit/${post.id}`}>Edit post</Link>
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
