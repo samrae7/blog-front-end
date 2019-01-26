@@ -6,6 +6,7 @@ class AuthService {
   private idToken: string;
   private expiresAt: number;
   private requestedScopes: string = "openid profile create:posts";
+  private nonce: string;
   private auth0 = new auth0.WebAuth({
     domain: "samsblog.eu.auth0.com",
     clientID: "L2s3AmsQaBPlOKcn5nHnhQ170JvFwy8K",
@@ -16,7 +17,6 @@ class AuthService {
   });
 
   constructor() {
-    console.log("authservice constructor called");
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     // this.requestedScopes: string = 'openid profile read:timesheets create:timesheets';
@@ -28,29 +28,27 @@ class AuthService {
   }
 
   public login() {
-    this.auth0.authorize();
+    this.nonce = "1234";
+    this.auth0.authorize({ nonce: this.nonce });
+    localStorage.setItem(this.nonce, history.location.pathname);
   }
 
   public logout() {
-    // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
-
     localStorage.removeItem("isLoggedIn");
-
-    // navigate to the home route
+    localStorage.removeItem(this.nonce);
+    this.nonce = null;
     history.replace("/posts");
   }
 
   public handleAuthentication() {
-    console.log("handling auth");
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash({ nonce: this.nonce }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
         history.replace("/posts");
-        console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
@@ -97,8 +95,12 @@ class AuthService {
     this.expiresAt = expiresAt;
     // this.scheduleRenewal();
 
-    // navigate to the home route
-    history.replace("/posts");
+    // get nonce from authResult so that we can check it matches that stored in localstorage
+    const { nonce } = authResult.idTokenPayload;
+
+    // if nonce matches navigate to the last path before auth (or if undefined go to posts)
+    const redirectPath = localStorage.getItem(nonce) || "/posts";
+    history.replace(redirectPath);
   }
 }
 
