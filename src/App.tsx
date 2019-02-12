@@ -73,14 +73,16 @@ class App extends React.Component<any, any> {
     return <PostsList posts={this.state.posts} />;
   };
 
+  private getMatchingPost = (posts: IPost[], id: string) => {
+    return posts.find((post: IPost) => post.id === parseInt(id, 10));
+  };
+
   private renderPost = (props: RouteComponentProps<any>) => {
     const { match } = props;
     return this.state.posts.length ? (
       <Post
         isAuthenticated={authService.isAuthenticated}
-        post={this.state.posts.find(
-          (post: IPost) => post.id === parseInt(match.params.id, 10)
-        )}
+        post={this.getMatchingPost(this.state.posts, match.params.id)}
       />
     ) : (
       <div> Not yet</div>
@@ -94,9 +96,7 @@ class App extends React.Component<any, any> {
     return this.state.posts.length ? (
       <EditPost
         onSave={this.handlePostSave}
-        post={this.state.posts.find(
-          (post: IPost) => post.id === parseInt(match.params.id, 10)
-        )}
+        post={this.getMatchingPost(this.state.posts, match.params.id)}
       />
     ) : (
       <div> Not yet</div>
