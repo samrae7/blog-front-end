@@ -11,6 +11,8 @@ const { API_BASE_URL } = process.env;
 import AuthService from "./services/AuthService";
 import LoginControl from "./components/LoginControl";
 import Callback from "./components/Callback";
+import FourOFour from "./components/FourOFour";
+
 import history from "./history";
 
 export const authService = new AuthService();
@@ -63,6 +65,7 @@ class App extends React.Component<any, any> {
             />
             <Route exact={true} path="/new" render={this.renderCreatePost} />
             <Route exact={true} path="/callback" render={this.renderCallback} />
+            <Route render={FourOFour} />
           </Switch>
         </MenuSystem>
       </Router>

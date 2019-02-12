@@ -10,7 +10,7 @@ import { IPost } from "../types";
 import { AWS_BUCKET_BASE_URL } from "../constants";
 import { Link } from "react-router-dom";
 
-const styles = () =>
+import FourOFour from "./FourOFour";
   createStyles({
     image: {
       maxWidth: 800
@@ -36,6 +36,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
   const { classes, post, isAuthenticated } = props;
 
   return (
+  return post ? (
     <Card className={classes.card}>
       <CardContent>
         {post.imageId && (
@@ -57,8 +58,11 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
             <Link to={`edit/${post.id}`}>Edit post</Link>
           </Button>
         )}
+        <AuthAware render={DeleteButton} />
       </CardContent>
     </Card>
+  ) : (
+    <FourOFour />
   );
 };
 
