@@ -8,15 +8,12 @@ import { IPost } from "./types";
 import { PostsList } from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
 const { API_BASE_URL } = process.env;
-import AuthService from "./services/AuthService";
 import LoginControl from "./components/LoginControl";
 import Callback from "./components/Callback";
 import FourOFour from "./components/FourOFour";
 
 import history from "./history";
 import authService from "./services/AuthService";
-
-export const authService = new AuthService();
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -25,6 +22,7 @@ class App extends React.Component<any, any> {
     this.renderLoginControl = this.renderLoginControl.bind(this);
     this.updateOrCreatePost = this.updateOrCreatePost.bind(this);
     this.renderCallback = this.renderCallback.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
   }
 
   public componentDidMount() {
@@ -85,11 +83,12 @@ class App extends React.Component<any, any> {
     const { match } = props;
     return this.state.posts.length ? (
       <Post
+        onDeletePost={this.handleDeletePost}
         isAuthenticated={authService.isAuthenticated}
         post={this.getMatchingPost(this.state.posts, match.params.id)}
       />
     ) : (
-      <div> Not yet</div>
+      <div>Loading...</div>
     );
   };
 
@@ -151,6 +150,22 @@ class App extends React.Component<any, any> {
     return fetch(url, fetchOptions).then(res => {
       return res.json();
     });
+  }
+
+  private async handleDeletePost(id: number): Promise<void> {
+    const fetchOptions: RequestInit = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${authService.getAccessToken()}`,
+        "Content-Type": "application/json"
+      }
+    };
+    const url = `${API_BASE_URL}/post/${id}`;
+    return fetch(url, fetchOptions).then(() =>
+      this.setState({
+        posts: this.state.posts.filter((post: IPost) => post.id !== id)
+      })
+    );
   }
 }
 

@@ -9,8 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import { IPost } from "../types";
 import { AWS_BUCKET_BASE_URL } from "../constants";
 import { Link } from "react-router-dom";
+import AuthAware from "./AuthAware";
 
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import FourOFour from "./FourOFour";
+
+const styles = (theme: Theme) =>
   createStyles({
     image: {
       maxWidth: 800
@@ -24,18 +28,36 @@ import FourOFour from "./FourOFour";
     },
     pos: {
       marginBottom: 12
+    },
+    button: {
+      margin: theme.spacing.unit,
+      display: "block"
     }
   });
 
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
   isAuthenticated: () => boolean;
+  onDeletePost: (id: number) => Promise<number>;
 }
 
 const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
-  const { classes, post, isAuthenticated } = props;
+  const { classes, post, isAuthenticated, onDeletePost } = props;
 
-  return (
+  const DeleteButton = () => {
+    const handleClick = () => onDeletePost(post.id);
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={handleClick}
+      >
+        Delete post
+      </Button>
+    );
+  };
+
   return post ? (
     <Card className={classes.card}>
       <CardContent>
