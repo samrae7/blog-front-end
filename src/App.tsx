@@ -14,6 +14,7 @@ import Callback from "./components/Callback";
 import FourOFour from "./components/FourOFour";
 
 import history from "./history";
+import authService from "./services/AuthService";
 
 export const authService = new AuthService();
 

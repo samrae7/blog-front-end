@@ -1,5 +1,5 @@
 import * as React from "react";
-import { authService } from "../App";
+import authService from "../services/AuthService";
 
 interface IAuthAwareProps {
   render: () => JSX.Element;

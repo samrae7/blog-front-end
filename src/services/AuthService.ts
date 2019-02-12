@@ -68,6 +68,8 @@ class AuthService {
   public renewSession() {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        const { nonce } = authResult.idTokenPayload;
+        localStorage.setItem(nonce, history.location.pathname);
         this.setSession(authResult);
       } else if (err) {
         this.logout();
@@ -105,4 +107,6 @@ class AuthService {
   }
 }
 
-export default AuthService;
+const authService = new AuthService();
+
+export default authService;
