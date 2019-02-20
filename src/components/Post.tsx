@@ -38,7 +38,7 @@ const styles = (theme: Theme) =>
 interface IPostProps extends WithStyles<typeof styles> {
   post: IPost;
   isAuthenticated: () => boolean;
-  onDeletePost: (id: number) => Promise<number>;
+  onDeletePost: (id: number) => Promise<void>;
 }
 
 const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
