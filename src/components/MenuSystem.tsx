@@ -99,11 +99,29 @@ interface IDrawerState {
   open: boolean;
 }
 
-interface IDrawerProps extends WithStyles<typeof styles> {
+interface IMenuSystemProps {
   renderLoginControl: () => JSX.Element;
+  theme: Theme;
+  classes: IStyledComponentClassNames;
 }
 
-class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
+// TODO find out if I can avoid this
+interface IStyledComponentClassNames {
+  root: string;
+  appFrame: string;
+  appBar: string;
+  appBarShift: string;
+  menuButton: string;
+  hide: string;
+  drawerPaper: string;
+  drawerHeader: string;
+  content: string;
+  contentShift: string;
+  grow: string;
+  titleLink: string;
+}
+
+class MenuSystem extends React.Component<IMenuSystemProps, IDrawerState> {
   public state = {
     open: false
   };
@@ -123,6 +141,7 @@ class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
         variant="persistent"
         anchor={"left"}
         open={open}
+        onClose={this.handleDrawerToggle}
         classes={{
           paper: classes.drawerPaper
         }}
@@ -137,7 +156,7 @@ class MenuSystem extends React.Component<IDrawerProps, IDrawerState> {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List onClick={this.handleDrawerToggle}>
           <ListItem component={LinkAllPosts}>
             <ListItemIcon>
               <InboxIcon />
