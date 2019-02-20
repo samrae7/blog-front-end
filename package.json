@@ -13,7 +13,7 @@
   "author": "Sam Rae",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^1.5.1",
+    "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^2.0.3",
     "@types/auth0-js": "^8.11.7",
     "@types/ramda": "^0.25.39",
