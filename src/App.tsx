@@ -5,7 +5,7 @@ import MenuSystem from "./components/MenuSystem";
 import Post from "./components/Post";
 import EditPost from "./components/EditPost";
 import { IPost } from "./types";
-import { PostsList } from "./components/PostsList";
+import PostsList from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
 const { API_BASE_URL } = process.env;
 import LoginControl from "./components/LoginControl";
