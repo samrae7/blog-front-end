@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -13,23 +13,27 @@ PostCard.propTypes = {
   post: PropTypes.object.isRequired
 };
 
-const styles = {
-  card: {
-    minWidth: 275
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  }
-};
+const styles = theme =>
+  createStyles({
+    card: {
+      width: "100%",
+      maxWidth: 800,
+      minWidth: 275,
+      marginBottom: theme.spacing.unit
+    },
+    bullet: {
+      display: "inline-block",
+      margin: "0 2px",
+      transform: "scale(0.8)"
+    },
+    title: {
+      marginBottom: 16,
+      fontSize: 14
+    },
+    pos: {
+      marginBottom: 12
+    }
+  });
 
 function PostCard(props) {
   const { classes, post } = props;

@@ -11,7 +11,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import { WithStyles } from "@material-ui/core/styles/withStyles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -28,8 +27,7 @@ const styles = (theme: Theme) =>
       zIndex: 1,
       overflow: "hidden",
       position: "relative",
-      display: "flex",
-      width: "100%"
+      display: "flex"
     },
     appBar: {
       position: "absolute",
@@ -65,14 +63,15 @@ const styles = (theme: Theme) =>
       ...theme.mixins.toolbar
     },
     content: {
-      flexGrow: 1,
+      width: "100%",
       backgroundColor: theme.palette.background.default,
-      padding: theme.spacing.unit * 3,
+      padding: theme.spacing.unit,
       marginLeft: -drawerWidth,
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
-      })
+      }),
+      margin: "0 auto"
     },
     contentShift: {
       marginLeft: 0,
