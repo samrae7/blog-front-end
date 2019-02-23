@@ -47,7 +47,7 @@ class App extends React.Component<any, any> {
   }
 
   public renderLoginControl = () => {
-    return <LoginControl authService={authService}/>;
+    return <LoginControl authService={authService} />;
   };
 
   public render() {
