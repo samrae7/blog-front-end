@@ -3,7 +3,13 @@ import * as React from "react";
 import { Link, LinkProps } from "react-router-dom";
 
 // MATERIAL-UI IMPORTS
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Grid
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -204,7 +210,12 @@ class MenuSystem extends React.Component<IMenuSystemProps, IDrawerState> {
           })}
         >
           <div className={classes.drawerHeader} />
-          {this.props.children}
+          <Grid
+            container={true}
+            alignItems="center"
+            direction="column"
+            children={this.props.children}
+          />
         </main>
       </div>
     );
