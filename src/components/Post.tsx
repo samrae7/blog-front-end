@@ -17,11 +17,9 @@ import PostImage from "./PostImage";
 
 const styles = (theme: Theme) =>
   createStyles({
-    image: {
-      maxWidth: 800
-    },
     card: {
-      minWidth: 275
+      minWidth: 275,
+      maxWidth: 800
     },
     title: {
       marginBottom: 16,

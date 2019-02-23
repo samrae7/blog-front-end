@@ -16,6 +16,9 @@ const { API_BASE_URL } = process.env;
 
 const styles = (theme: Theme) =>
   createStyles({
+    card: {
+      maxWidth: 800
+    },
     container: {
       flexWrap: "wrap"
     },
@@ -140,7 +143,7 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     const { title, body, selectedImageKey, fireRedirect } = this.state;
     const { classes, post } = this.props;
     return (
-      <Card>
+      <Card className={classes.card}>
         <CardContent>
           <PostImage selectedImageKey={selectedImageKey} />
           <form

@@ -7,8 +7,7 @@ import { AWS_BUCKET_BASE_URL } from "../constants";
 const styles = () =>
   createStyles({
     image: {
-      width: "100%",
-      maxWidth: 800
+      width: "100%"
     }
   });
 
