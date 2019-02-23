@@ -8,15 +8,14 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 
 import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
+import PostImage from "./PostImage";
 import { IPost } from "../types";
 import { AWS_BUCKET_BASE_URL } from "../constants";
+import { CardContent, Card } from "@material-ui/core";
 const { API_BASE_URL } = process.env;
 
 const styles = (theme: Theme) =>
   createStyles({
-    image: {
-      maxWidth: 800
-    },
     container: {
       flexWrap: "wrap"
     },
@@ -141,66 +140,66 @@ class EditPost extends React.Component<IPostProps, IEditPostState> {
     const { title, body, selectedImageKey, fireRedirect } = this.state;
     const { classes, post } = this.props;
     return (
-      <div>
-        {selectedImageKey && (
-          <img
-            className={classes.image}
-            src={`${AWS_BUCKET_BASE_URL}/${selectedImageKey}`}
-          />
-        )}
-        <form
-          className={classes.container}
-          noValidate={true}
-          autoComplete="off"
-        >
-          <TextField
-            id="full-width"
-            label="Title"
-            onChange={this.handleTitleChange}
-            InputLabelProps={{
-              shrink: true
-            }}
-            fullWidth={true}
-            margin="normal"
-            value={title}
-          />
-          <TextField
-            id="full-width"
-            label="Main text"
-            onChange={this.handleBodyChange}
-            InputLabelProps={{
-              shrink: true
-            }}
-            fullWidth={true}
-            margin="normal"
-            value={body}
-          />
-          <div className={classes.imageControls}>
-            <ImageSelect
-              selectedImageKey={this.state.selectedImageKey}
-              onImageSelect={this.handleImageSelect}
-              imageKeys={this.state.imageKeys}
-            />
-            <ImageUpload onUploadImage={this.uploadImage} />
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleSave}
+      <Card>
+        <CardContent>
+          <PostImage selectedImageKey={selectedImageKey} />
+          <form
+            className={classes.container}
+            noValidate={true}
+            autoComplete="off"
           >
-            Save
-          </Button>
-        </form>
-        {post ? <Link to={`/posts/${post.id}`}>View post</Link> : null}
-        {fireRedirect && (
-          <Redirect
-            to={
-              post ? `/posts/${post.id}` : `/posts/${this.state.createdPostId}`
-            }
-          />
-        )}
-      </div>
+            <TextField
+              id="full-width"
+              label="Title"
+              onChange={this.handleTitleChange}
+              InputLabelProps={{
+                shrink: true
+              }}
+              fullWidth={true}
+              margin="normal"
+              value={title}
+            />
+            <TextField
+              id="full-width"
+              label="Main text"
+              onChange={this.handleBodyChange}
+              InputLabelProps={{
+                shrink: true
+              }}
+              fullWidth={true}
+              multiline={true}
+              margin="normal"
+              value={body}
+            />
+            <div className={classes.imageControls}>
+              <ImageSelect
+                selectedImageKey={this.state.selectedImageKey}
+                onImageSelect={this.handleImageSelect}
+                imageKeys={this.state.imageKeys}
+              />
+              <ImageUpload onUploadImage={this.uploadImage} />
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={this.handleSave}
+            >
+              Save
+            </Button>
+          </form>
+          {post ? <Link to={`/posts/${post.id}`}>View post</Link> : null}
+          {fireRedirect && (
+            <Redirect
+              to={
+                post
+                  ? `/posts/${post.id}`
+                  : `/posts/${this.state.createdPostId}`
+              }
+            />
+          )}
+        </CardContent>
+      </Card>
     );
   }
 

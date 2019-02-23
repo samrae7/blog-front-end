@@ -13,6 +13,7 @@ import AuthAware from "./AuthAware";
 
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import FourOFour from "./FourOFour";
+import PostImage from "./PostImage";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -61,12 +62,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
   return post ? (
     <Card className={classes.card}>
       <CardContent>
-        {post.imageId && (
-          <img
-            className={classes.image}
-            src={`${AWS_BUCKET_BASE_URL}/${post.imageId}`}
-          />
-        )}
+        <PostImage selectedImageKey={post.imageId} />
         <Typography className={classes.title} color="textSecondary">
           {new Date(post.dateCreated).toDateString()}
         </Typography>
