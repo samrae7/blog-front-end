@@ -1,4 +1,5 @@
 import * as React from "react";
+import Markdown from "markdown-to-jsx";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,7 +8,6 @@ import { createStyles, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import { IPost } from "../types";
-import { AWS_BUCKET_BASE_URL } from "../constants";
 import { Link } from "react-router-dom";
 import AuthAware from "./AuthAware";
 
@@ -40,6 +40,14 @@ interface IPostProps extends WithStyles<typeof styles> {
   onDeletePost: (id: number) => Promise<void>;
 }
 
+const markdownOptions = {
+  overrides: {
+    p: {
+      component: (props: any) => <Typography component="p" {...props} />
+    }
+  }
+};
+
 const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
   const { classes, post, isAuthenticated, onDeletePost } = props;
 
@@ -68,7 +76,7 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
           {post.title}
         </Typography>
         <Typography component="p">{post.intro}</Typography>
-        <Typography component="p">{post.body}</Typography>
+        <Markdown children={post.body} options={markdownOptions} />
         {isAuthenticated() && (
           <Button variant="contained">
             <Link to={`edit/${post.id}`}>Edit post</Link>
