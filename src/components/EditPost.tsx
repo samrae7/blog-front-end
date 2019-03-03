@@ -10,9 +10,8 @@ import ImageSelect from "./ImageSelect";
 import ImageUpload from "./ImageUpload";
 import PostImage from "./PostImage";
 import { IPost } from "../types";
-import { AWS_BUCKET_BASE_URL } from "../constants";
 import { CardContent, Card } from "@material-ui/core";
-const { API_BASE_URL } = process.env;
+const API_BASE_URL = process.env.API_BASE_URL;
 
 const styles = (theme: Theme) =>
   createStyles({
