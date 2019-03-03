@@ -3,8 +3,6 @@ import history from "../history";
 import { randomString } from "../helpers";
 const API_BASE_URL = process.env.API_BASE_URL;
 const SPA_BASE_URL = process.env.SPA_BASE_URL;
-console.log("spa", SPA_BASE_URL);
-console.log("api", API_BASE_URL);
 
 class AuthService {
   private accessToken: string;
