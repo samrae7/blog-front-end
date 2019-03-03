@@ -1,6 +1,10 @@
 import auth0 from "auth0-js";
 import history from "../history";
 import { randomString } from "../helpers";
+const API_BASE_URL = process.env.API_BASE_URL;
+const SPA_BASE_URL = process.env.SPA_BASE_URL;
+console.log("spa", SPA_BASE_URL);
+console.log("api", API_BASE_URL);
 
 class AuthService {
   private accessToken: string;
@@ -11,10 +15,10 @@ class AuthService {
   private auth0 = new auth0.WebAuth({
     domain: "samsblog.eu.auth0.com",
     clientID: "L2s3AmsQaBPlOKcn5nHnhQ170JvFwy8K",
-    redirectUri: "http://localhost:8000/callback",
+    redirectUri: `${SPA_BASE_URL}/callback`,
     responseType: "token id_token",
     scope: "openid create:posts",
-    audience: "https://localhost:5000/api/post"
+    audience: `${API_BASE_URL}/post`
   });
 
   constructor() {
