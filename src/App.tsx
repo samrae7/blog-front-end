@@ -7,13 +7,15 @@ import EditPost from "./components/EditPost";
 import { IPost } from "./types";
 import PostsList from "./components/PostsList";
 import { IPostPayload } from "./components/EditPost";
-const { API_BASE_URL } = process.env;
 import LoginControl from "./components/LoginControl";
 import Callback from "./components/Callback";
 import FourOFour from "./components/FourOFour";
 
 import history from "./history";
 import authService from "./services/AuthService";
+
+// TODO work out why http works but http doesnt
+const API_BASE_URL = "http://localhost:5000/api";
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
