@@ -14,7 +14,6 @@ import FourOFour from "./components/FourOFour";
 import history from "./history";
 import authService from "./services/AuthService";
 
-// TODO work out why http works but https doesnt
 const API_BASE_URL = process.env.API_BASE_URL;
 
 class App extends React.Component<any, any> {
