@@ -16,7 +16,8 @@ const API_BASE_URL = process.env.API_BASE_URL;
 const styles = (theme: Theme) =>
   createStyles({
     card: {
-      maxWidth: 800
+      maxWidth: 800,
+      width: "100%"
     },
     container: {
       flexWrap: "wrap"
