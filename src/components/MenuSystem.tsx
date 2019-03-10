@@ -190,7 +190,7 @@ class MenuSystem extends React.Component<IMenuSystemProps, IDrawerState> {
               <MenuIcon />
             </IconButton>
             <Typography
-              variant="title"
+              variant="h6"
               className={classes.grow}
               color="inherit"
               noWrap={true}

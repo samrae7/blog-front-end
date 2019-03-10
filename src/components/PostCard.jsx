@@ -44,7 +44,7 @@ function PostCard(props) {
         <Typography className={classes.title} color="textSecondary">
           {new Date(post.dateCreated).toDateString()}
         </Typography>
-        <Typography variant="headline" component="h2">
+        <Typography variant="h5" component="h2">
           {post.title}
         </Typography>
         <Typography component="p">{post.intro}</Typography>

@@ -21,10 +21,6 @@ const styles = (theme: Theme) =>
       minWidth: 275,
       maxWidth: 800
     },
-    title: {
-      marginBottom: 16,
-      fontSize: 14
-    },
     pos: {
       marginBottom: 12
     },
@@ -56,7 +52,12 @@ const markdownOptions = {
     li: {
       component: (props: any) => {
         const ListItem = ({ classes }: any) => (
-          <Typography classes={classes} component="li" {...props} />
+          <Typography
+            classes={classes}
+            variant="body1"
+            component="li"
+            {...props}
+          />
         );
         const ListItemWithStyles = withStyles(listItemOverrideStyles)(ListItem);
         return <ListItemWithStyles />;
@@ -86,13 +87,19 @@ const Post: React.StatelessComponent<IPostProps> = (props: IPostProps) => {
     <Card className={classes.card}>
       <CardContent>
         <PostImage selectedImageKey={post.imageId} />
-        <Typography className={classes.title} color="textSecondary">
+        <Typography
+          color="textSecondary"
+          variant="overline"
+          gutterBottom={true}
+        >
           {new Date(post.dateCreated).toDateString()}
         </Typography>
-        <Typography variant="headline" component="h2">
+        <Typography variant="h5" gutterBottom={true}>
           {post.title}
         </Typography>
-        <Typography component="p">{post.intro}</Typography>
+        <Typography variant="subtitle1" gutterBottom={true}>
+          {post.intro}
+        </Typography>
         <Markdown children={post.body} options={markdownOptions} />
         {isAuthenticated() && (
           <Button variant="contained">
