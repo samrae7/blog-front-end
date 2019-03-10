@@ -40,6 +40,12 @@ interface IPostProps extends WithStyles<typeof styles> {
   onDeletePost: (id: number) => Promise<void>;
 }
 
+const listItemOverrideStyles = {
+  root: {
+    display: "list-item"
+  }
+};
+
 const markdownOptions = {
   overrides: {
     p: {
@@ -48,7 +54,13 @@ const markdownOptions = {
       )
     },
     li: {
-      component: (props: any) => <Typography component="li" {...props} />
+      component: (props: any) => {
+        const ListItem = ({ classes }: any) => (
+          <Typography classes={classes} component="li" {...props} />
+        );
+        const ListItemWithStyles = withStyles(listItemOverrideStyles)(ListItem);
+        return <ListItemWithStyles />;
+      }
     }
   }
 };
