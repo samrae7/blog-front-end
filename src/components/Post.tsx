@@ -43,7 +43,12 @@ interface IPostProps extends WithStyles<typeof styles> {
 const markdownOptions = {
   overrides: {
     p: {
-      component: (props: any) => <Typography component="p" {...props} />
+      component: (props: any) => (
+        <Typography variant="body1" paragraph={true} {...props} />
+      )
+    },
+    li: {
+      component: (props: any) => <Typography component="li" {...props} />
     }
   }
 };
